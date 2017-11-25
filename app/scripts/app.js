@@ -14,8 +14,11 @@
         	.state('album', {	//another state named album
              url: '/album',
              templateUrl: '/templates/album.html'
+         })
+ 	        .state('collection', {	//another state for collection view
+             url: '/collection',
+             templateUrl: '/templates/collection.html'
          });
-
      }
   angular
          .module('blocJams', ['ui.router'])//module and dependency
