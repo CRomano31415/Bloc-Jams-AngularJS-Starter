@@ -2,23 +2,33 @@
      function SongPlayer(Fixtures) {
           var SongPlayer = {};
 
-
           var currentAlbum = Fixtures.getAlbum();
-/**
- * @desc Buzz object audio file
- * @type {Object}
- */
+		/**
+		 * @desc Buzz object audio file
+		 * @type {Object}
+		 */
           var currentBuzzObject = null;
- 
-  /**
- * @function setSong
- * @desc Stops currently playing song and loads new audio file as currentBuzzObject
- * @param {Object} song
- */
+
+
+		  /**
+		 * @function stopSong
+		 * @desc stops song as set by setSong
+		 * @param {Object} song
+		 */
+	    	var stopSong = function(song) {
+	            song = song || SongPlayer.currentSong;
+	        	currentBuzzObject.stop();
+	    		song.playing = null;
+	    	};
+
+		  /**
+		 * @function setSong
+		 * @desc Stops currently playing song and loads new audio file as currentBuzzObject
+		 * @param {Object} song
+		 */
           var setSong = function(song) {
           	if (currentBuzzObject) {
-          		currentBuzzObject.stop();
-          		SongPlayer.currentSong.playing = null;
+          		stopSong(song);
  			}
           	currentBuzzObject = new buzz.sound(song.audioUrl, {
           		formats: ['mp3'],
@@ -27,22 +37,22 @@
           	SongPlayer.currentSong = song; 
           };
 
-  /**
- * @function playSong
- * @desc Plays song as set by setSong
- * @param {Object} song
- */
+		  /**
+		 * @function playSong
+		 * @desc Plays song as set by setSong
+		 * @param {Object} song
+		 */
 
           var playSong = function(song) {
           	currentBuzzObject.play();
           	song.playing = true;
           };
 
-  /**
- * @function getSongIndex
- * @desc returns song index
- * @param {Object} song
- */
+		  /**
+		 * @function getSongIndex
+		 * @desc returns song index
+		 * @param {Object} song
+		 */
 
          var getSongIndex = function(song) {
              return currentAlbum.songs.indexOf(song);
@@ -50,6 +60,10 @@
 
           SongPlayer.currentSong = null;
 
+		  /**
+		 * @method .play
+		 * @desc gets song index and plays song
+		 */
 
 	    SongPlayer.play = function(song){
           song = song || SongPlayer.currentSong;
@@ -63,6 +77,10 @@
           }
 
 	    };
+		  /**
+		 * @method .pause
+		 * @desc gets song index and pauses play
+		 */
 
     	SongPlayer.pause = function(song) {
         song = song || SongPlayer.currentSong;
@@ -70,20 +88,39 @@
     		song.playing = false;
     	};
 
-  /**
- * @function .previous
- * @desc gets song index and decreases song index count by one
- */
+
+		  /**
+		 * @method .previous
+		 * @desc gets song index and decreases song index count by one
+		 */
 
        SongPlayer.previous = function() {
        var currentSongIndex = getSongIndex(SongPlayer.currentSong);
        currentSongIndex--;
 
          if (currentSongIndex < 0) {
-         currentBuzzObject.stop();
-         SongPlayer.currentSong.playing = null;
+		 stopSong(song);
          } else {
-         var song = currentAlbum.songs[currentSongIndex];
+	     var song = currentAlbum.songs[currentSongIndex];
+         setSong(song);
+         playSong(song);
+         }
+       };
+
+	  /**
+	 * @method .next
+	 * @desc gets song index and increases song index count by one
+	 */
+
+       SongPlayer.next = function() {
+       var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+       currentSongIndex++;
+
+
+         if (currentSongIndex >= currentAlbum.songs.length) {
+         stopSong(song);
+         } else {
+	     var song = currentAlbum.songs[currentSongIndex];
          setSong(song);
          playSong(song);
          }
