@@ -51,6 +51,14 @@
              };
 
 	 		  /**
+			 * @method thumbStyle
+			 * @desc 
+			 */
+             scope.thumbStyle = function() {
+                 return {width: percentString()};
+             };
+
+	 		  /**
 			 * @method onClickSeekBar
 			 * @desc updates seek bar value based on width and location of click
 			 */
