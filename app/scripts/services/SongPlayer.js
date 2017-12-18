@@ -16,7 +16,7 @@
 		 * @param {Object} song
 		 */
 	    	var stopSong = function(song) {
-	            song = song || SongPlayer.currentSong;
+		        song = song || SongPlayer.currentSong;
 	        	currentBuzzObject.stop();
 	    		song.playing = null;
 	    	};
@@ -28,7 +28,7 @@
 		 */
           var setSong = function(song) {
           	if (currentBuzzObject) {
-          		stopSong(song);
+          		stopSong();
  			}
           	currentBuzzObject = new buzz.sound(song.audioUrl, {
           		formats: ['mp3'],
