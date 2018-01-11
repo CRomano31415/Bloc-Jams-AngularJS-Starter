@@ -35,7 +35,7 @@
 			 * @function percentString
 			 * @desc calculates a percent based on value & max value of seek bar
 			 */
-             var percentString = function () {
+             var percentString = function() {
                  var value = scope.value;
                  var max = scope.max;
                  var percent = value / max * 100;
@@ -55,7 +55,7 @@
 			 * @desc 
 			 */
              scope.thumbStyle = function() {
-                 return {value: percentString()};
+                 return {left: percentString()};
              };
 
 	 		  /**
