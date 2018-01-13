@@ -23,7 +23,9 @@
 			templateUrl: '/templates/directives/seek_bar.html',
 			replace: true, //replace element <seek-bar> with seek_bar.html
 			restrict: 'E', //this is an element
-			scope: { }, //new scope be created solely for this directive
+			scope: { 
+				onChange: '&'
+			}, //new scope be created solely for this directive
 			link: function(scope, element, attributes) { //updates DOM
 				//directive Logic to return
 				//set default values
@@ -31,6 +33,14 @@
              scope.max = 100; //holds max value of song and volume seek bar
  
  			 var seekBar = $(element); //holds element as jQuery object
+
+ 			 attributes.$observe('value', function(newValue){
+ 			 		scope.value = newValue;
+ 			 });
+
+ 			 attributes.$observe('max', function(newValue){
+ 			 		scope.max = newValue;
+ 			 });
 	 		  /**
 			 * @function percentString
 			 * @desc calculates a percent based on value & max value of seek bar
@@ -66,6 +76,7 @@
              scope.onClickSeekBar = function(event) {
              	var percent = calculatePercent(seekBar, event);
              	scope.value = percent * scope.max;
+             	notifyOnChange(scope.value);
              };
 			
 			  /**
@@ -79,6 +90,7 @@
 			         var percent = calculatePercent(seekBar, event);
 			         scope.$apply(function() {
 			             scope.value = percent * scope.max;
+			             notifyOnChange(scope.value);
 			         });
 			     });
 			 
@@ -87,7 +99,11 @@
 			         $document.unbind('mouseup.thumb');
 			     });
 			 };
-
+			 var notifyOnChange = function(newValue) {
+			 	if (typeof scope.onChange === 'funciton') {
+			 		scope.onChange({value: newValue});
+			 	}
+			 };
 
 			}
 		};
