@@ -100,7 +100,7 @@
 			     });
 			 };
 			 var notifyOnChange = function(newValue) {
-			 	if (typeof scope.onChange === 'funciton') {
+			 	if (typeof scope.onChange === 'function') {
 			 		scope.onChange({value: newValue});
 			 	}
 			 };
