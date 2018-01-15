@@ -65,7 +65,6 @@
              return currentAlbum.songs.indexOf(song);
          };
 
-          SongPlayer.currentSong = null;
 
 		  /**
 		 * @desc Current playback time (in seconds) of currently playing song
@@ -84,15 +83,15 @@
 
 	    SongPlayer.play = function(song){
           song = song || SongPlayer.currentSong;
+//          console.log(song);
         	if (SongPlayer.currentSong !== song){
  			setSong(song);
 			playSong(song);			  
           } else if (SongPlayer.currentSong === song) {
-          		if (currentBuzzObject.isPaused()) {
+		 		if (currentBuzzObject.isPaused()) {
           			playSong(song);
           		}
           }
-
 	    };
 		  /**
 		 * @method .pause
@@ -101,6 +100,7 @@
 
     	SongPlayer.pause = function(song) {
         song = song || SongPlayer.currentSong;
+
     		currentBuzzObject.pause();
     		song.playing = false;
     	};
